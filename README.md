@@ -10,4 +10,6 @@ go run main.go
 [AlecAivazis/survey](https://github.com/AlecAivazis/survey)
 
 ## Demonstration
-![Terminal](docs/terminal.gif)
+| Batch                    | Interactive                     |
+| ------------------------ | ------------------------------- |
+| ![Batch](docs/cobra.gif) | ![Interactive](docs/survey.gif) |
