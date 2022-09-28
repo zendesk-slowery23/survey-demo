@@ -9,7 +9,10 @@ go run main.go
 ## Links
 [AlecAivazis/survey](https://github.com/AlecAivazis/survey)
 
-## Demonstration
-| Batch                    | Interactive                     |
-| ------------------------ | ------------------------------- |
-| ![Batch](docs/cobra.gif) | ![Interactive](docs/survey.gif) |
+## Demonstrations
+
+### Batch Mode
+![Batch](docs/cobra.gif)
+
+### Interactive Mode
+![Interactive](docs/survey.gif)
