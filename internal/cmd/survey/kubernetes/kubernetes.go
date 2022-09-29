@@ -2,10 +2,10 @@ package kubernetes
 
 import (
 	"github.com/AlecAivazis/survey/v2"
-	"github.com/zendesk-slowery23/survey-demo/pkg/api"
+	"github.com/zendesk-slowery23/survey-demo/pkg/biz/kubernetes"
 )
 
-func Wizard(flags *api.KubernetesFlags) error {
+func Wizard(flags *kubernetes.Flags) error {
 
 	return survey.Ask([]*survey.Question{
 		{
