@@ -6,7 +6,7 @@ import (
 	"github.com/zendesk-slowery23/survey-demo/pkg/biz/kubernetes"
 )
 
-func New(flags *kubernetes.Flags) *cobra.Command {
+func New(flags *kubernetes.Flags, interactive bool) *cobra.Command {
 
 	k8s := &cobra.Command{
 		Use:     "kubernetes",
@@ -22,27 +22,34 @@ func New(flags *kubernetes.Flags) *cobra.Command {
 		Short:   "Commands related to kuberetes manifests",
 	}
 
-	k8s.PersistentFlags().BoolVarP(&flags.Interactive, "interactive", "i", false, "Interactive Mode")
 	k8s.AddCommand(man)
 
 	gen := &cobra.Command{
 		Use:   "generate",
 		Short: "Generate kubernetes manifests for your workload",
-		RunE: func(cmd *cobra.Command, args []string) error {
-			if it, _ := cmd.Flags().GetBool("interactive"); it {
+		Long:  "Generate kubernetes manifests for your workload",
+		PreRunE: func(cmd *cobra.Command, args []string) error {
+			if interactive {
 				err := survey.Wizard(flags)
 				if err != nil {
 					return err
 				}
 			}
-
+			return nil
+		},
+		RunE: func(cmd *cobra.Command, args []string) error {
 			kubernetes.New().Create(flags)
 			return nil
 		},
 	}
 
-	gen.Flags().StringVarP(&flags.Type, "type", "t", "deployment", "Type (one of deployment or statefulset)")
-	gen.Flags().IntVarP(&flags.Replicas, "replicas", "r", 2, "# of replicas")
+	if !interactive {
+		gen.Flags().StringVarP(&flags.Type, "type", "t", "deployment", "Type (one of deployment or statefulset)")
+		gen.Flags().IntVarP(&flags.Replicas, "replicas", "r", 0, "# of replicas")
+
+		gen.MarkFlagRequired("type")
+		gen.MarkFlagRequired("replicas")
+	}
 
 	man.AddCommand(gen)
 	return k8s
