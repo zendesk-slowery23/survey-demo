@@ -144,17 +144,6 @@ func (s *scaffoldingService) toStatefulset(flags *Flags) *apps.StatefulSet {
 	}
 }
 
-func (s *scaffoldingService) toPodTemplateSpec(flags *Flags) core.PodTemplateSpec {
-	return core.PodTemplateSpec{
-		ObjectMeta: *s.toObjectMeta(flags),
-		Spec: core.PodSpec{
-			Containers: []core.Container{
-				*s.toContainer(flags),
-			},
-		},
-	}
-}
-
 func (s *scaffoldingService) toService(flags *Flags) *core.Service {
 	return &core.Service{
 		TypeMeta: meta.TypeMeta{
@@ -167,6 +156,17 @@ func (s *scaffoldingService) toService(flags *Flags) *core.Service {
 				"app.kubernetes.io/name": flags.Name,
 			},
 			Ports: s.toServicePorts(flags),
+		},
+	}
+}
+
+func (s *scaffoldingService) toPodTemplateSpec(flags *Flags) core.PodTemplateSpec {
+	return core.PodTemplateSpec{
+		ObjectMeta: *s.toObjectMeta(flags),
+		Spec: core.PodSpec{
+			Containers: []core.Container{
+				*s.toContainer(flags),
+			},
 		},
 	}
 }

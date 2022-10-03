@@ -2,12 +2,11 @@ package kubernetes
 
 import (
 	"fmt"
-	"os"
-	"path/filepath"
 	"strconv"
 	"strings"
 
 	"github.com/AlecAivazis/survey/v2"
+	"github.com/zendesk-slowery23/survey-demo/internal/util"
 	"github.com/zendesk-slowery23/survey-demo/pkg/biz/kubernetes"
 )
 
@@ -29,7 +28,7 @@ func Wizard(flags *kubernetes.Flags) error {
 			Name: "name",
 			Prompt: &survey.Input{
 				Message: "What is the name of your workload?",
-				Default: currentDir(),
+				Default: util.CurrentDir(),
 			},
 			Validate: survey.Required,
 		},
@@ -233,14 +232,4 @@ func surveyResourceRequirements(flags *kubernetes.Flags) error {
 	flags.MemoryLimit = flags.MemoryRequest
 
 	return nil
-}
-
-func currentDir() string {
-	dir, err := os.Getwd()
-	if err != nil {
-		return ""
-	}
-
-	_, cd := filepath.Split(dir)
-	return cd
 }
